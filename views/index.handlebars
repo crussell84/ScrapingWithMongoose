@@ -1,8 +1,9 @@
 <div id="home">
   <div class="container">
+    <h1>{{msg}}</h1>
     <div class="row">
-      <div class="col-8 offset-2">
-        <h1>{{msg}}</h1>
+      <div class="col-8 offset-1">
+
         <h3>Articles:</h3>
         <ul id="article-list" class="list-group">
           {{#each articles}}
@@ -13,7 +14,7 @@
           {{/each}}
         </ul>
       </div>
-      <div class="col-2" id="comments">
+      <div class="col-3" id="comments">
         <h3>Comments:</h3>
         <ul id="comment-list" class="list-group">
           {{#each comments}}

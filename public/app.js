@@ -8,7 +8,7 @@ const getComments = function (articleID) {
     .then(function (data) {
       console.log(data);
       data.forEach(function (element) {
-        $('#comments').append(`<li><strong>${element.title}</strong><p>${element.body}</p></li>`);
+        $('#comments').append(`<li><strong>${element.title}</strong><button class="delete btn btn-sm btn-danger m-1" data-id="${element._id}">X</button><p>${element.body}</p></li>`);
       });
 
       // An input to enter a new title
