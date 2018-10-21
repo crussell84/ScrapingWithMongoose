@@ -133,6 +133,14 @@ app.get("/", function(req, res) {
   });
 });
 
+app.delete("/notes/:id", function(req, res) {
+  db.Note.findByIdAndDelete({_id: req.params.id}).then(function (dbNote){
+    res.json(dbNote);
+  }).catch(function (err) {
+    res.json(err);
+  });
+});
+
 // Start the server
 app.listen(PORT, function () {
   console.log("App running on port " + PORT + "!");
