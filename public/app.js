@@ -20,11 +20,19 @@ const getComments = function (articleID) {
 
     });
 };
-
+const scrapeArticles = function () {
+    $.ajax({
+      method: "GET",
+      url: "/scrape"
+    })
+      .then(function (data) {
+        location.reload(true);
+      });
+  }
 
 $("li.article").on("click", function () {
   // Empty the notes from the note section
-  
+
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
   getComments(thisId);
@@ -56,7 +64,7 @@ $(document).on("click", "#savenote", function () {
   $("#bodyinput").val("");
 });
 
-$(document).on("click", "button.delete", function(){
+$(document).on("click", "button.delete", function () {
   console.log("I clicked a button!");
   var noteId = $(this).attr("data-id");
   var articleId = $(this).attr("data-article");
@@ -67,3 +75,4 @@ $(document).on("click", "button.delete", function(){
     getComments(articleId);
   })
 })
+$("#scrape").on("click", scrapeArticles);
