@@ -1,0 +1,32 @@
+<div id="home">
+  <div class="container">
+    <div class="row">
+      <div class="col-8 offset-2">
+        <h1>{{msg}}</h1>
+        <h3>Articles:</h3>
+        <ul id="article-list" class="list-group">
+          {{#each articles}}
+          <li data-id="{{this._id}}" class="list-group-item article">
+            <a href="{{this.link}}">{{this.title}}</a>
+            <p>{{this.summary}}</p>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="col-2" id="comments">
+        <h3>Comments:</h3>
+        <ul id="comment-list" class="list-group">
+          {{#each comments}}
+          <li>
+            <p><em>{{this.title}}</em></p>
+            <p>{{this.body}}</p>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/app.js"></script>

@@ -1,7 +1,7 @@
 var express = require("express");
 var request = require("request");
 var mongoose = require("mongoose");
-
+var exphbs = require("express-handlebars");
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
@@ -17,7 +17,13 @@ var PORT = 3000;
 var app = express();
 
 // Configure middleware
-
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main"
+  })
+);
+app.set("view engine", "handlebars");
 
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
@@ -85,9 +91,10 @@ app.get("/articles/:id", function (req, res) {
   // ====
   // Finish the route so it finds one article using the req.params.id,
   db.Article.findOne({ _id: req.params.id })
-    .populate("note")
-    .then(function (dbArticle) { res.json(dbArticle) })
-    .catch(function (err) { res.json(err) });
+    .then(db.Note.find({article: req.params.id}).then(function(dbNote) {
+      res.json(dbNote);
+     })
+    .catch(function (err) { res.json(err) }));
   // and run the populate method with "note",
   // then responds with the article with the note included
 });
@@ -98,9 +105,14 @@ app.post("/articles/:id", function (req, res) {
   // ====
   // save the new note that gets posted to the Notes collection
   var id = req.params.id;
-  db.Note.create(req.body)
+  var newNote = {
+    title: req.body.title,
+    body: req.body.body,
+    article: id
+  }
+  db.Note.create(newNote)
     .then(function (dbNote) {
-      return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: dbNote._id } }, { new: true });
+      return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: dbNote} });
     })
     .then(function (dbArticle) {
       res.json(dbArticle);
@@ -110,6 +122,15 @@ app.post("/articles/:id", function (req, res) {
     })
   // then find an article from the req.params.id
   // and update it's "note" property with the _id of the new note
+});
+
+app.get("/", function(req, res) {
+  db.Article.find({}).then(function(dbArticles) {
+    res.render("index", {
+      msg: "Tech News",
+      articles: dbArticles
+    });
+  });
 });
 
 // Start the server
