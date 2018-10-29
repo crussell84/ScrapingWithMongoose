@@ -12,9 +12,9 @@ const getComments = function (articleID) {
       });
 
       // An input to enter a new title
-      $("#comments").append("<input id='titleinput' name='title' >");
+      $("#comments").append("<input id='titleinput' placeholder='Title' name='title' >");
       // A textarea to add a new note body
-      $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
+      $("#comments").append("<textarea id='bodyinput' placeholder='Comment' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
       $("#comments").append("<button data-id='" + articleID + "' id='savenote'>Save Comment</button>");
 
